@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QSystemTrayIcon>
+#include <QMessageBox>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -7,25 +9,73 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    work_time = 16;
-    sb_time = 6;
-    lb_time = 11;
-    count = 0;
 
-    work_timer = new QTimer(this);
-    sb_timer = new QTimer(this);
-    lb_timer = new QTimer(this);
+    if(QSystemTrayIcon::isSystemTrayAvailable())
+    {
 
-    connect(work_timer,SIGNAL(timeout()), this ,SLOT(WorkTimerHandler()));
-    connect(sb_timer,SIGNAL(timeout()), this ,SLOT(SmallBreakTimerHandler()));
-    connect(lb_timer,SIGNAL(timeout()), this ,SLOT(LongBreakTimerHandler()));
-    work_timer->start(1000);  // 100 nanoseconds or 1 second interval
+        // tray settings
+        trayIcon = new QSystemTrayIcon(this);
+        trayIconMenu = new QMenu(this);
+        // setting actions
+        QAction *QAquit=new QAction("&Quit",this);
+
+        //adding actions to context menu
+        trayIconMenu->addAction(QAquit);
+        trayIcon->setContextMenu(trayIconMenu);
+
+        // tray ico set
+        trayIcon->setIcon(this->windowIcon());
+        trayIcon->show();
+
+
+        work_time = 16;
+        sb_time = 6;
+        lb_time = 11;
+        count = 0;
+
+        work_timer = new QTimer(this);
+        sb_timer = new QTimer(this);
+        lb_timer = new QTimer(this);
+
+
+        //setup ui slots
+        connect(QAquit,SIGNAL(triggered()),qApp,SLOT(quit()));
+//        connect(trayIcon,SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+//                this,SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
+        connect(trayIcon,SIGNAL(activated(QSystemTrayIcon::ActivationReason)),this,SLOT(show()));
+
+        connect(sb_timer,SIGNAL(timeout()), this ,SLOT(SmallBreakTimerHandler()));
+        connect(lb_timer,SIGNAL(timeout()), this ,SLOT(LongBreakTimerHandler()));
+        work_timer->start(1000);  // 100 nanoseconds or 1 second interval
+    }else{
+        //Error out and quit
+        QMessageBox::critical(this,"Abort","Unsupported Desktop Environment.  Exiting");
+        exit(EXIT_FAILURE);
+    }
+
+
 
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
+{
+    switch (reason)
+    {
+    case QSystemTrayIcon::DoubleClick:
+        this->show();
+        break;
+    case QSystemTrayIcon::MiddleClick:
+        this->showMinimized();
+        break;
+    default:
+        ;
+
+    }
 }
 
 
