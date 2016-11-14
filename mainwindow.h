@@ -18,12 +18,20 @@ public:
     ~MainWindow();
 
 private slots:
-    void myTimerHandler();
+    void WorkTimerHandler();
+    void SmallBreakTimerHandler();
+    void LongBreakTimerHandler();
 
 private:
     Ui::MainWindow *ui;
-    QTimer * timer;
-    qint32  counter;
+    QTimer * work_timer;
+    QTimer * sb_timer;
+    QTimer * lb_timer;
+
+    qint32  work_time;
+    qint32 sb_time; //small break time
+    qint32 lb_time; //long break time
+    qint32 count;
 };
 
 #endif // MAINWINDOW_H
