@@ -4,11 +4,19 @@
 #include <QMessageBox>
 
 
+
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->tomato_1->setEnabled(false);
+    ui->tomato_2->setEnabled(false);
+    ui->tomato_3->setEnabled(false);
+    ui->tomato_4->setEnabled(false);
+
+
 
     if(QSystemTrayIcon::isSystemTrayAvailable())
     {
@@ -38,12 +46,15 @@ MainWindow::MainWindow(QWidget *parent) :
         lb_timer = new QTimer(this);
 
 
+
+
+
         //setup ui slots
         connect(QAquit,SIGNAL(triggered()),qApp,SLOT(quit()));
 //        connect(trayIcon,SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
 //                this,SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
         connect(trayIcon,SIGNAL(activated(QSystemTrayIcon::ActivationReason)),this,SLOT(show()));
-
+        connect(work_timer,SIGNAL(timeout()), this, SLOT(WorkTimerHandler()));
         connect(sb_timer,SIGNAL(timeout()), this ,SLOT(SmallBreakTimerHandler()));
         connect(lb_timer,SIGNAL(timeout()), this ,SLOT(LongBreakTimerHandler()));
         work_timer->start(1000);  // 100 nanoseconds or 1 second interval
@@ -81,30 +92,31 @@ void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
 
 void MainWindow::WorkTimerHandler()
 {
-
       if(work_time >= 1 && count <= 4)
       {
           work_time--;
           int m = work_time/60;
           int s = work_time - (m*60);
           ui->label->setText(QString("%1:%2").arg(m).arg(s));
-
       }
 
       else if (work_time < 1 && count < 3)
       {
-
-          work_timer->stop();
+         work_timer->stop();
           count++;
           work_time = 16;
           sb_timer->start(1000);
       }
       else
       {
-
           work_timer->stop();
           lb_timer->start(1000);
       }
+
+      if(count == 1) ui->tomato_1->setEnabled(true);
+      if(count == 2) ui->tomato_2->setEnabled(true);
+      if(count == 3) ui->tomato_3->setEnabled(true);
+      if(count == 4) ui->tomato_4->setEnabled(true);
 
 }
 
@@ -129,6 +141,8 @@ void MainWindow::SmallBreakTimerHandler()
 
 void MainWindow::LongBreakTimerHandler()
 {
+
+
     if(lb_time >= 1)
     {
         lb_time--;
@@ -142,6 +156,12 @@ void MainWindow::LongBreakTimerHandler()
         lb_time = 11;
         count = 0;
         work_time = 16;
+
+        ui->tomato_1->setEnabled(false);
+        ui->tomato_2->setEnabled(false);
+        ui->tomato_3->setEnabled(false);
+        ui->tomato_4->setEnabled(false);
+
         work_timer->start(1000);
     }
 }

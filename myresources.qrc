@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/new/icons">
         <file>icons/Tomato.ico</file>
+        <file>icons/tomato_big.png</file>
     </qresource>
 </RCC>

@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QSystemTrayIcon>
 #include <QMenu>
+#include <QPixmap>
 
 namespace Ui {
 class MainWindow;
