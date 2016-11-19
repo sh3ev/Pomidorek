@@ -6,6 +6,8 @@
 
 
 
+
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -15,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tomato_2->setEnabled(false);
     ui->tomato_3->setEnabled(false);
     ui->tomato_4->setEnabled(false);
+
+
 
 
 
@@ -102,19 +106,29 @@ void MainWindow::WorkTimerHandler()
 
       else if (work_time < 1 && count < 3)
       {
-         work_timer->stop();
+          QMessageBox::information(this,tr("SHORT BREAK"), tr("It's time for short break !"));
+          work_timer->stop();
           count++;
           work_time = 16;
           sb_timer->start(1000);
       }
       else
       {
+          QMessageBox::information(this,tr("LONG BREAK"), tr("It's time for long break !"));
           work_timer->stop();
           lb_timer->start(1000);
       }
 
-      if(count == 1) ui->tomato_1->setEnabled(true);
-      if(count == 2) ui->tomato_2->setEnabled(true);
+      if(count == 1)
+      {
+          //ui->label->setText("SHORT BREAK");
+          ui->tomato_1->setEnabled(true);
+      }
+      if(count == 2)
+      {
+          //ui->label->setText("SHORT BREAK");
+          ui->tomato_2->setEnabled(true);
+      }
       if(count == 3) ui->tomato_3->setEnabled(true);
       if(count == 4) ui->tomato_4->setEnabled(true);
 
@@ -131,6 +145,7 @@ void MainWindow::SmallBreakTimerHandler()
     }
     else
     {
+        QMessageBox::information(this,tr("WORK"), tr("Let's do something !"));
         sb_timer->stop();
         sb_time = 6;
         work_timer->start(1000);

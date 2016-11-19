@@ -3,4 +3,9 @@
         <file>icons/Tomato.ico</file>
         <file>icons/tomato_big.png</file>
     </qresource>
+    <qresource prefix="/new/sounds">
+        <file>sounds/work_sound.wav</file>
+        <file>sounds/break_sound.wav</file>
+        <file>sounds/applause.wav</file>
+    </qresource>
 </RCC>
