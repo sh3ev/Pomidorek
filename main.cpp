@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include <QApplication>
-
+#include <QtMultimedia/QSound>
 
 
 int main(int argc, char *argv[])
@@ -10,6 +10,7 @@ int main(int argc, char *argv[])
     MainWindow w;
 
     w.show();
+    QSound::play(":/new/sounds/sounds/work_sound.wav");
 
 
     return a.exec();

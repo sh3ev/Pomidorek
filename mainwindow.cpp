@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QSystemTrayIcon>
 #include <QMessageBox>
+#include <QtMultimedia/QSound>
 
 
 
@@ -96,6 +97,7 @@ void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
 
 void MainWindow::WorkTimerHandler()
 {
+
       if(work_time >= 1 && count <= 4)
       {
           work_time--;
@@ -106,6 +108,7 @@ void MainWindow::WorkTimerHandler()
 
       else if (work_time < 1 && count < 3)
       {
+          QSound::play(":/new/sounds/sounds/break_sound.wav");
           QMessageBox::information(this,tr("SHORT BREAK"), tr("It's time for short break !"));
           work_timer->stop();
           count++;
@@ -114,6 +117,7 @@ void MainWindow::WorkTimerHandler()
       }
       else
       {
+          QSound::play(":/new/sounds/sounds/applause.wav");
           QMessageBox::information(this,tr("LONG BREAK"), tr("It's time for long break !"));
           work_timer->stop();
           lb_timer->start(1000);
@@ -145,6 +149,7 @@ void MainWindow::SmallBreakTimerHandler()
     }
     else
     {
+        QSound::play(":/new/sounds/sounds/work_sound.wav");
         QMessageBox::information(this,tr("WORK"), tr("Let's do something !"));
         sb_timer->stop();
         sb_time = 6;
@@ -176,7 +181,8 @@ void MainWindow::LongBreakTimerHandler()
         ui->tomato_2->setEnabled(false);
         ui->tomato_3->setEnabled(false);
         ui->tomato_4->setEnabled(false);
-
+        QSound::play(":/new/sounds/sounds/work_sound.wav");
+        QMessageBox::information(this,tr("WORK"), tr("Let's do something !"));
         work_timer->start(1000);
     }
 }
