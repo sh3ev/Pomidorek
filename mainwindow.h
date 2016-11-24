@@ -6,8 +6,8 @@
 #include <QDebug>
 #include <QSystemTrayIcon>
 #include <QMenu>
-#include <QMessageBox>
 #include <QtMultimedia/QSound>
+#include <QCloseEvent>
 
 
 
@@ -32,6 +32,7 @@ private slots:
     void iconActivated(QSystemTrayIcon::ActivationReason reason);
     void showMessage();
     void messageClicked();
+    void closeEvent(QCloseEvent*);
 
 private:
     Ui::MainWindow *ui;

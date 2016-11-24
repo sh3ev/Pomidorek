@@ -1,10 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QSystemTrayIcon>
-#include <QMessageBox>
 #include <QtMultimedia/QSound>
-
-
+#include <QCloseEvent>
+#include <QMessageBox>
 
 
 
@@ -77,6 +76,13 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::closeEvent(QCloseEvent * event)
+{
+    event->ignore();
+    this->hide();
+}
+
 
 void MainWindow::showNotification(QString title, QString message)
 {
@@ -186,7 +192,6 @@ void MainWindow::LongBreakTimerHandler()
         ui->tomato_3->setEnabled(false);
         ui->tomato_4->setEnabled(false);
         QSound::play(":/new/sounds/sounds/work_sound.wav");
-        QMessageBox::information(this,tr("WORK"), tr("Let's do something !"));
         work_timer->start(1000);
     }
 }
