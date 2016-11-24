@@ -23,11 +23,15 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    void showNotification(QString title, QString message);
+
 private slots:
     void WorkTimerHandler();
     void SmallBreakTimerHandler();
     void LongBreakTimerHandler();
     void iconActivated(QSystemTrayIcon::ActivationReason reason);
+    void showMessage();
+    void messageClicked();
 
 private:
     Ui::MainWindow *ui;
@@ -45,6 +49,9 @@ private:
     qint32 sb_time; //small break time
     qint32 lb_time; //long break time
     qint32 count;
+
+
+
 };
 
 #endif // MAINWINDOW_H

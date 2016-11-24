@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 
     w.show();
     QSound::play(":/new/sounds/sounds/work_sound.wav");
-
+    w.showNotification("WORK", "Let's do something !");
 
     return a.exec();
 }

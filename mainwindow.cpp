@@ -78,6 +78,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::showNotification(QString title, QString message)
+{
+    trayIcon->showMessage(title, message);
+}
+
 void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
 {
     switch (reason)
@@ -97,7 +102,6 @@ void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
 
 void MainWindow::WorkTimerHandler()
 {
-
       if(work_time >= 1 && count <= 4)
       {
           work_time--;
@@ -109,7 +113,7 @@ void MainWindow::WorkTimerHandler()
       else if (work_time < 1 && count < 3)
       {
           QSound::play(":/new/sounds/sounds/break_sound.wav");
-          QMessageBox::information(this,tr("SHORT BREAK"), tr("It's time for short break !"));
+          trayIcon->showMessage("SHORT BREAK","It's time for short break !");
           work_timer->stop();
           count++;
           work_time = 16;
@@ -118,7 +122,7 @@ void MainWindow::WorkTimerHandler()
       else
       {
           QSound::play(":/new/sounds/sounds/applause.wav");
-          QMessageBox::information(this,tr("LONG BREAK"), tr("It's time for long break !"));
+          trayIcon->showMessage("LONG BREAK","It's time for long break !");
           work_timer->stop();
           lb_timer->start(1000);
       }
@@ -150,7 +154,7 @@ void MainWindow::SmallBreakTimerHandler()
     else
     {
         QSound::play(":/new/sounds/sounds/work_sound.wav");
-        QMessageBox::information(this,tr("WORK"), tr("Let's do something !"));
+        trayIcon->showMessage("WORK","Let's do something !");
         sb_timer->stop();
         sb_time = 6;
         work_timer->start(1000);
