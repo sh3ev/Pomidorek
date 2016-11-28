@@ -45,6 +45,7 @@ private:
 
 
     QAction *QAquit;       //quit application
+    QAction *QAshow;       //show application
 
     qint32  work_time;
     qint32 sb_time; //small break time

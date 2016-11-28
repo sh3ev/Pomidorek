@@ -7,7 +7,6 @@
 
 
 
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -30,9 +29,11 @@ MainWindow::MainWindow(QWidget *parent) :
         trayIconMenu = new QMenu(this);
         // setting actions
         QAction *QAquit=new QAction("&Quit",this);
+        QAction *QAshow=new QAction("&Show",this);
 
         //adding actions to context menu
         trayIconMenu->addAction(QAquit);
+        trayIconMenu->addAction(QAshow);
         trayIcon->setContextMenu(trayIconMenu);
 
         // tray ico set
@@ -55,9 +56,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
         //setup ui slots
         connect(QAquit,SIGNAL(triggered()),qApp,SLOT(quit()));
-//        connect(trayIcon,SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+        connect(QAshow,SIGNAL(triggered()),this,SLOT(show()));
+//                connect(trayIcon,SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
 //                this,SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
-        connect(trayIcon,SIGNAL(activated(QSystemTrayIcon::ActivationReason)),this,SLOT(show()));
+//        connect(trayIcon,SIGNAL(activated(QSystemTrayIcon::ActivationReason)),this,SLOT(show()));
         connect(work_timer,SIGNAL(timeout()), this, SLOT(WorkTimerHandler()));
         connect(sb_timer,SIGNAL(timeout()), this ,SLOT(SmallBreakTimerHandler()));
         connect(lb_timer,SIGNAL(timeout()), this ,SLOT(LongBreakTimerHandler()));
@@ -82,6 +84,7 @@ void MainWindow::closeEvent(QCloseEvent * event)
     event->ignore();
     this->hide();
 }
+
 
 
 void MainWindow::showNotification(QString title, QString message)
