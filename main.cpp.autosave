@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
     MainWindow w;
 
     w.show();
-    QSound::play(":/new/sounds/sounds/applause.wav");
+    QSound::play(":/new/sounds/sounds/work_sound.wav");
     w.showNotification("WORK", "Let's do something !");
 
     return a.exec();
